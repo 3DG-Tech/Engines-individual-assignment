@@ -36,6 +36,8 @@ public class BulletController : MonoBehaviour
             //TODO: ResetBullet function which will return the bullet to the pool
             //Destroy(this.gameObject);
 
+            BulletPoolManager.SharedInstance.ResetBullet(this.gameObject);
+
             gameObject.SetActive(false);
         } 
       
