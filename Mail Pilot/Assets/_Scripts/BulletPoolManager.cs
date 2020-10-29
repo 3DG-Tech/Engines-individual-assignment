@@ -8,6 +8,16 @@ using UnityEngine;
 public class BulletPoolManager : MonoBehaviour
 {
     public GameObject bullet;
+    public static BulletPoolManager SharedInstance;
+    public List<GameObject> pooledObjects;
+    public int amountToPool;
+
+    private void Awake()
+    {
+
+        SharedInstance = this;
+
+    }
 
     //TODO: create a structure to contain a collection of bullets
 
@@ -15,6 +25,15 @@ public class BulletPoolManager : MonoBehaviour
     void Start()
     {
         // TODO: add a series of bullets to the Bullet Pool
+        pooledObjects = new List<GameObject>();
+
+        for (int i = 0; i <amountToPool; i++)
+        {
+            GameObject bulletObj = (GameObject)Instantiate(bullet);
+            bulletObj.SetActive(false);
+            pooledObjects.Add(bulletObj);
+        }
+
     }
 
     // Update is called once per frame
@@ -26,8 +45,14 @@ public class BulletPoolManager : MonoBehaviour
     //TODO: modify this function to return a bullet from the Pool
     public GameObject GetBullet()
     {
-
-        return bullet;
+        for (int i = 0; i < pooledObjects.Count; i++)
+        {
+            if (!pooledObjects[i].activeInHierarchy)
+            {
+                return pooledObjects[i]
+;            }
+        }
+        return null;
     }
 
     //TODO: modify this function to reset/return a bullet back to the Pool 
